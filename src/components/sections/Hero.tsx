@@ -87,7 +87,7 @@ export default function Hero() {
         </div>
         <div className="flex items-center gap-1">
           <span className="text-[var(--rich-gold)]">⚡</span>
-          <span>hates period cramps</span>
+          <span></span>
         </div>
       </motion.div>
     </motion.div>
