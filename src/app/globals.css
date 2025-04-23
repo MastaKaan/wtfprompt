@@ -15,6 +15,19 @@
   --white: #f3f4f6;
 }
 
+/* Star canvas background - always behind everything */
+.stars-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* Always behind */
+  pointer-events: none;
+  display: block;
+  background: #070b14; /* fallback */
+}
+
 /* Custom font classes */
 .font-outfit {
   font-family: var(--font-outfit);
@@ -27,6 +40,14 @@
 @layer base {
   body {
     @apply bg-[var(--midnight)] text-[var(--text)] min-h-screen overflow-x-hidden relative;
+  }
+
+  /* Main content always above backgrounds */
+  main,
+  .container,
+  #__next {
+    position: relative;
+    z-index: 1;
   }
 
   a {
@@ -49,12 +70,20 @@
            backdrop-blur-xl transition-all duration-300 overflow-hidden
            relative hover:translate-y-[-5px] hover:shadow-[0_15px_40px_0_rgba(56,189,248,0.2)] 
            hover:border-sky-300/60;
+    /* Glassmorphism cross-browser */
+    background: rgba(13, 23, 46, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
 }
 
 @layer components {
   .text-gradient {
     @apply bg-gradient-to-r from-[var(--blue-accent)] via-[var(--rich-gold)] to-[var(--neon-purple)] bg-clip-text text-transparent bg-[length:200%_auto] animate-gradientMove;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
   }
 
   .cosmic-glow {
@@ -164,5 +193,30 @@
     height: 3px;
     background: linear-gradient(to right, var(--neon-blue), transparent);
     border-radius: 3px;
+  }
+}
+
+/* Accessibility: reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .stars-canvas {
+    display: none !important;
+  }
+  section {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 }
