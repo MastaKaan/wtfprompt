@@ -14,7 +14,7 @@ export default function Footer() {
       <div>
         © 2025 |{" "}
         <span className="relative after:content-['|'] after:absolute after:right-[-12px] after:top-0 after:text-[var(--neon-blue)] after:animate-cursorBlink">
-          no, not a femboy...™
+          prompt™
         </span>
       </div>
 
