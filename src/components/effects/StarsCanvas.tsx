@@ -1,37 +1,17 @@
 "use client";
-
 import { useRef, useEffect } from "react";
-import { useMotionValue } from "framer-motion";
 
 export default function StarsCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const prefersReducedMotion = useMotionValue(false);
 
   useEffect(() => {
-    prefersReducedMotion.set(
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    );
-
     const canvas = canvasRef.current;
     if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
+    let ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const setupCanvas = () => {
-      const dpr = window.devicePixelRatio || 1;
-      const rect = canvas.getBoundingClientRect();
-
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      ctx.scale(dpr, dpr);
-
-      canvas.style.width = `${rect.width}px`;
-      canvas.style.height = `${rect.height}px`;
-    };
-
-    // Star generation with different sizes for depth perception
-    const stars: {
+    const maxDepth = 300;
+    let stars: {
       x: number;
       y: number;
       z: number;
@@ -39,66 +19,69 @@ export default function StarsCanvas() {
       color: string;
     }[] = [];
 
-    const maxDepth = 300;
-
-    const addStars = () => {
-      const starCount = Math.min(window.innerWidth / 2, 800);
-
-      for (let i = 0; i < starCount; i++) {
-        stars.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          z: Math.random() * maxDepth,
-          r: Math.random() * 1.5,
-          color: Math.random() > 0.9 ? getRandomStarColor() : "#FFFFFF",
-        });
-      }
-    };
-
     function getRandomStarColor() {
       const colors = ["#F9F9F9", "#E6F6FF", "#B5E8FF", "#FFF9C4", "#FFF0C2"];
       return colors[Math.floor(Math.random() * colors.length)];
     }
 
-    setupCanvas();
-    addStars();
+    function setupCanvasAndStars() {
+      if (!canvas) return;
+      ctx = canvas.getContext("2d");
+      if (!ctx) return;
 
-    // Animation loop with optimized frame handling
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+
+      // Regenerate stars
+      const starCount = Math.min(window.innerWidth / 2, 800);
+      stars = [];
+      for (let i = 0; i < starCount; i++) {
+        stars.push({
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          z: Math.random() * maxDepth,
+          r: Math.random() * 1.5,
+          color: Math.random() > 0.9 ? getRandomStarColor() : "#FFFFFF",
+        });
+      }
+    }
+
+    setupCanvasAndStars();
+    window.addEventListener("resize", setupCanvasAndStars);
+
     let lastTime = 0;
     const fps = 30;
     const interval = 1000 / fps;
+    let animationId: number;
 
-    const animate = (timestamp: number) => {
+    function animate(timestamp: number) {
+      if (!ctx) return;
       if (!lastTime) lastTime = timestamp;
       const deltaTime = timestamp - lastTime;
 
       if (deltaTime > interval) {
         lastTime = timestamp - (deltaTime % interval);
 
-        // Clear canvas with better performance
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-        // Update and draw stars
         for (let i = 0; i < stars.length; i++) {
           const star = stars[i];
-
-          // Slowly rotate stars
           star.z -= 0.05;
-
-          // Reset stars that go too far
           if (star.z <= 0) {
             star.z = maxDepth;
-            star.x = Math.random() * canvas.width;
-            star.y = Math.random() * canvas.height;
+            star.x = Math.random() * window.innerWidth;
+            star.y = Math.random() * window.innerHeight;
           }
-
-          // Calculate position with perspective
           const scale = maxDepth / (maxDepth + star.z);
           const x = star.x * scale;
           const y = star.y * scale;
           const r = star.r * scale;
 
-          // Draw star with optimized approach
           if (r > 0.1) {
             ctx.beginPath();
             ctx.fillStyle = star.color;
@@ -108,23 +91,23 @@ export default function StarsCanvas() {
           }
         }
       }
-
-      requestAnimationFrame(animate);
-    };
-
-    if (!prefersReducedMotion.get()) {
-      const animationId = requestAnimationFrame(animate);
-      return () => cancelAnimationFrame(animationId);
+      animationId = requestAnimationFrame(animate);
     }
 
-    window.addEventListener("resize", setupCanvas);
-    return () => window.removeEventListener("resize", setupCanvas);
-  }, [prefersReducedMotion]);
+    animationId = requestAnimationFrame(animate);
+
+    return () => {
+      window.removeEventListener("resize", setupCanvasAndStars);
+      if (animationId) cancelAnimationFrame(animationId);
+    };
+  }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      className="fixed top-0 left-0 w-full h-full z-0 pointer-events-none"
+      className="stars-canvas"
+      aria-hidden="true"
+      style={{ display: "block" }}
     />
   );
 }
