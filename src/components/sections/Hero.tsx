@@ -27,7 +27,7 @@ export default function Hero() {
         <motion.div
           className="w-[clamp(120px,15vw,180px)] h-[clamp(120px,15vw,180px)] rounded-full 
                      relative bg-[var(--deep-space)] flex items-center justify-center overflow-hidden"
-          whileHover={{ scale: 1.05 }}
+         
           transition={{ type: "spring", stiffness: 300, damping: 15 }}
         >
           <div className="absolute inset-0 rounded-full p-[3px] bg-gradient-to-br from-[var(--neon-blue)] to-[var(--rich-gold)]" />
@@ -69,7 +69,7 @@ export default function Hero() {
         transition={{ delay: 0.6, duration: 0.8 }}
       >
         &quot;i&apos;m such an avid feminist&quot; — me, constantly having to
-        clarify...
+        clarify... (P.S if you click on the pfp 5 times you get a surprise 👀)
       </motion.p>
 
       <motion.div
