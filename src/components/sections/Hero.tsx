@@ -38,7 +38,7 @@ export default function Hero() {
               width={180}
               height={180}
               priority
-              className="w-full h-full object-cover transition-all duration-500 hover:scale-110 hover:filter-contrast-110 hover:filter-saturate-120"
+              className="w-full h-full object-cover transition-all duration-500"
             />
           </div>
         </motion.div>
