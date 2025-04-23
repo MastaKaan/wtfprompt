@@ -68,7 +68,7 @@ export default function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, duration: 0.8 }}
       >
-        &quot;definitely not a femboy&quot; — me, constantly having to
+        &quot;i'm such an avid feminist&quot; — me, constantly having to
         clarify...
       </motion.p>
 
