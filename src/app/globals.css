@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --midnight: #070b14;
+  --deep-space: #0c1222;
+  --nebula: #101729;
+  --blue-accent: #3b82f6;
+  --neon-blue: #38bdf8;
+  --neon-purple: #a855f7;
+  --rich-gold: #f59e0b;
+  --glass: rgba(13, 23, 46, 0.7);
+  --text: #e2e8f0;
+  --white: #f3f4f6;
+}
+
+/* Custom font classes */
+.font-outfit {
+  font-family: var(--font-outfit);
+}
+
+.font-space-grotesk {
+  font-family: var(--font-space-grotesk);
+}
+
+@layer base {
+  body {
+    @apply bg-[var(--midnight)] text-[var(--text)] min-h-screen overflow-x-hidden relative;
+  }
+
+  a {
+    @apply text-[var(--neon-blue)] no-underline transition-all duration-300 relative hover:text-[var(--rich-gold)] hover:shadow-[0_0_8px_rgba(56,189,248,0.5)];
+  }
+
+  h1 {
+    @apply font-black text-[clamp(2.5rem,6vw,4rem)] leading-tight tracking-tight;
+    font-family: var(--font-outfit);
+  }
+
+  h2 {
+    @apply text-[var(--neon-blue)] text-[clamp(1.4rem,4vw,1.8rem)] font-semibold tracking-wide relative inline-block mb-7;
+    font-family: var(--font-outfit);
+  }
+
+  section {
+    @apply bg-[var(--glass)] border border-sky-300/20 rounded-[clamp(1rem,2vw,1.5rem)] 
+           p-[clamp(1.5rem,4vw,2.5rem)] mt-[clamp(2.5rem,5vw,3.5rem)] 
+           backdrop-blur-xl transition-all duration-300 overflow-hidden
+           relative hover:translate-y-[-5px] hover:shadow-[0_15px_40px_0_rgba(56,189,248,0.2)] 
+           hover:border-sky-300/60;
+  }
+}
+
+@layer components {
+  .text-gradient {
+    @apply bg-gradient-to-r from-[var(--blue-accent)] via-[var(--rich-gold)] to-[var(--neon-purple)] bg-clip-text text-transparent bg-[length:200%_auto] animate-gradientMove;
+  }
+
+  .cosmic-glow {
+    @apply shadow-[0_0_15px_rgba(56,189,248,0.5)];
+  }
+
+  .cosmic-glow-intense {
+    @apply shadow-[0_0_25px_rgba(56,189,248,0.8)];
+  }
+
+  .social-btn {
+    @apply w-full bg-gradient-to-tr from-sky-400/10 to-purple-500/10 
+           text-[var(--white)] py-[clamp(0.8rem,2vw,1rem)] px-[clamp(1rem,3vw,1.5rem)]
+           border border-sky-300/30 rounded-lg font-semibold text-[clamp(0.9rem,2vw,1.1rem)]
+           flex items-center justify-center gap-3 cursor-pointer overflow-hidden
+           transition-all duration-300 relative z-[1] hover:translate-y-[-5px]
+           hover:shadow-[0_10px_25px_rgba(56,189,248,0.3)] hover:border-[var(--neon-blue)];
+  }
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes nebulaMove {
+  0% {
+    transform: scale(1) rotate(0deg);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2) rotate(3deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.1) rotate(-3deg);
+    opacity: 0.6;
+  }
+}
+
+@keyframes rotateHalo {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cursorBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Add social button hover effects to globals.css */
+@layer utilities {
+  .social-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+    background: var(--hover-gradient);
+  }
+
+  .social-btn:hover::before {
+    opacity: 1;
+  }
+
+  .game-card-image {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+  }
+
+  h2::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(to right, var(--neon-blue), transparent);
+    border-radius: 3px;
+  }
+}
