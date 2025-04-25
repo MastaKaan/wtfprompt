@@ -68,7 +68,7 @@ export default function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, duration: 0.8 }}
       >
-        
+        "im such an avid feminist - me always having to state it"
     </motion.p>
 
       <motion.div
@@ -87,7 +87,7 @@ export default function Hero() {
         </div>
         <div className="flex items-center gap-1">
           <span className="text-[var(--rich-gold)]">⚡</span>
-          <span></span>
+          <span>hates period cramps</span>
         </div>
       </motion.div>
     </motion.div>
