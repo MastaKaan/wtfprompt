@@ -39,8 +39,7 @@ export default function About() {
             </svg>
           }
         >
-          I am a <a href="https://exmtweaks.com/">exm manager</a> and yes, i am
-          the rizzler.
+          I am a <a href="https://exmtweaks.com/">exm tweaks manager.</a>
         </AboutItem>
 
         <AboutItem
