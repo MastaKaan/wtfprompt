@@ -52,7 +52,7 @@ export default function Socials() {
           <path d="M5.164 0L.16 18.928 18.836 24l5.004-18.928L5.164 0zm8.716 14.776l-7.128-1.344 2.508-9.248 7.128 1.344-2.508 9.248z" />
         </svg>
       ),
-      label: "14kSxnpai",
+      label: "kebablover739",
       href: "https://www.roblox.com/users/105081109/profile",
       color: "roblox",
     },

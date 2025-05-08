@@ -109,8 +109,7 @@ export default function About() {
             </svg>
           }
         >
-          A wise man once said, strong enough to have it all, weak enough to
-          take it.
+          i love clipfarming #CLIPFARMER4LIFE.
         </AboutItem>
       </motion.div>
     </motion.section>
