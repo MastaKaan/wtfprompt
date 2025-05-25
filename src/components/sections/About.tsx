@@ -81,7 +81,7 @@ export default function About() {
             </svg>
           }
         >
-          In my free time, I like to play games that make me question reality.
+          in my free time, i go to the gym and just chill at home with whatever time i have left.
         </AboutItem>
 
         <AboutItem

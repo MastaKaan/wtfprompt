@@ -13,7 +13,7 @@ export default function Games() {
     {
       title: "Discord",
       description:
-        "Is it really a game? No, but it's where I spend lots of my time anyway.",
+        "Is it really a game? no, but i still spend time here when i can.",
       image: "/assets/discord.png",
     },
   ];
